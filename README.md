@@ -71,3 +71,5 @@ As rotas privadas esperam `Authorization: Bearer TOKEN`. O login devolve o token
 ## Deploy
 
 O projeto usa a porta fornecida pelo Render. Configure todas as variáveis do `.env.example`, principalmente `FRONTEND_URL` com a origem exata do site publicado na Vercel, sem usar `*`. No Aiven, use `DB_SSL=true` quando o serviço exigir SSL; a verificação do servidor fica ativa por padrão. Depois do deploy, a documentação continuará disponível em `/api-docs`.
+
+O arquivo `render.yaml` permite criar o serviço pelo recurso Blueprint do Render. Durante a criação, o painel solicita os dados privados do banco e a origem do frontend; esses valores não ficam gravados no repositório.
