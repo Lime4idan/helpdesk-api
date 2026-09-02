@@ -2,6 +2,9 @@
 
 API REST em JSON para abrir, acompanhar e atender chamados de suporte. Clientes enxergam seus próprios chamados; técnicos visualizam a fila, assumem chamados, mudam o status e comentam.
 
+- API publicada: https://helpdesk-api-t1hv.onrender.com
+- Swagger: https://helpdesk-api-t1hv.onrender.com/api-docs
+
 ## Tecnologias
 
 - Node.js e Express
