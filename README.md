@@ -43,6 +43,7 @@ A API estará em `http://localhost:3001` e o Swagger em `http://localhost:3001/a
 | `DB_NAME` | Nome do banco, normalmente `helpdesk`. |
 | `DB_SSL` | Use `true` quando o provedor exigir SSL. |
 | `DB_SSL_REJECT_UNAUTHORIZED` | Controla a validação do servidor SSL. |
+| `DB_SSL_CA_BASE64` | Certificado CA do banco convertido para Base64. |
 | `JWT_SECRET` | Segredo longo usado para assinar os tokens. |
 | `FRONTEND_URL` | Origem exata do frontend autorizada pelo CORS. |
 | `NODE_ENV` | Use `development` localmente e `production` no deploy. |
@@ -70,6 +71,6 @@ As rotas privadas esperam `Authorization: Bearer TOKEN`. O login devolve o token
 
 ## Deploy
 
-O projeto usa a porta fornecida pelo Render. Configure todas as variáveis do `.env.example`, principalmente `FRONTEND_URL` com a origem exata do site publicado na Vercel, sem usar `*`. No Aiven, use `DB_SSL=true` quando o serviço exigir SSL; a verificação do servidor fica ativa por padrão. Depois do deploy, a documentação continuará disponível em `/api-docs`.
+O projeto usa a porta fornecida pelo Render. Configure todas as variáveis do `.env.example`, principalmente `FRONTEND_URL` com a origem exata do site publicado na Vercel, sem usar `*`. No Aiven, use `DB_SSL=true` e coloque o certificado fornecido pelo serviço em `DB_SSL_CA_BASE64`. Depois do deploy, a documentação continuará disponível em `/api-docs`.
 
 O arquivo `render.yaml` permite criar o serviço pelo recurso Blueprint do Render. Durante a criação, o painel solicita os dados privados do banco e a origem do frontend; esses valores não ficam gravados no repositório.

@@ -23,6 +23,8 @@ services:
         value: true
       - key: DB_SSL_REJECT_UNAUTHORIZED
         value: true
+      - key: DB_SSL_CA_BASE64
+        sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: FRONTEND_URL

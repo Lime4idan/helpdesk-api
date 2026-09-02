@@ -15,6 +15,10 @@ if (process.env.DB_SSL === 'true') {
   configuracao.ssl = {
     rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false'
   };
+
+  if (process.env.DB_SSL_CA_BASE64) {
+    configuracao.ssl.ca = Buffer.from(process.env.DB_SSL_CA_BASE64, 'base64').toString('utf8');
+  }
 }
 
 const conexao = mysql.createPool(configuracao);
