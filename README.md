@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛠️ HelpDesk API
+#  HelpDesk API
 
 The service layer behind a complete support-ticket workflow.
 
