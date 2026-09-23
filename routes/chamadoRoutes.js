@@ -6,10 +6,10 @@ const { autenticar, apenas } = require('../middlewares/autenticacao');
 const verificarValidacao = require('../middlewares/validacao');
 
 const router = express.Router();
-const validarId = param('id').isInt({ min: 1 }).withMessage('Id inválido.');
+const validarId = param('id').isInt({ min: 1 }).withMessage('Invalid ID.');
 const validarChamado = [
-  body('titulo').trim().isLength({ min: 3, max: 150 }).withMessage('O título deve ter entre 3 e 150 caracteres.'),
-  body('descricao').trim().isLength({ min: 10 }).withMessage('A descrição deve ter pelo menos 10 caracteres.')
+  body('titulo').trim().isLength({ min: 3, max: 150 }).withMessage('Title must contain between 3 and 150 characters.'),
+  body('descricao').trim().isLength({ min: 10 }).withMessage('Description must contain at least 10 characters.')
 ];
 
 router.use(autenticar);
@@ -20,13 +20,13 @@ router.put('/:id', validarId, validarChamado, verificarValidacao, chamadoControl
 router.delete('/:id', validarId, verificarValidacao, chamadoController.excluir);
 router.patch('/:id/status', apenas('tecnico'), [
   validarId,
-  body('status').isIn(['Aberto', 'Em Atendimento', 'Concluído']).withMessage('Status inválido.'),
+  body('status').isIn(['Aberto', 'Em Atendimento', 'Concluído']).withMessage('Invalid status.'),
   verificarValidacao
 ], chamadoController.alterarStatus);
 router.get('/:id/comentarios', validarId, verificarValidacao, comentarioController.listar);
 router.post('/:id/comentarios', [
   validarId,
-  body('comentario').trim().isLength({ min: 2, max: 2000 }).withMessage('O comentário deve ter entre 2 e 2000 caracteres.'),
+  body('comentario').trim().isLength({ min: 2, max: 2000 }).withMessage('Comment must contain between 2 and 2,000 characters.'),
   verificarValidacao
 ], comentarioController.criar);
 

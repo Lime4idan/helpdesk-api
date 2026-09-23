@@ -37,8 +37,8 @@ async function listar(req, res, next) {
 async function detalhar(req, res, next) {
   try {
     const chamado = await Chamado.buscarPorId(req.params.id);
-    if (!chamado) return res.status(404).json({ mensagem: 'Chamado não encontrado.' });
-    if (!podeVer(chamado, req.usuario)) return res.status(403).json({ mensagem: 'Acesso negado.' });
+    if (!chamado) return res.status(404).json({ mensagem: 'Ticket not found.' });
+    if (!podeVer(chamado, req.usuario)) return res.status(403).json({ mensagem: 'Access denied.' });
     res.json(chamado);
   } catch (erro) { next(erro); }
 }
@@ -72,8 +72,8 @@ async function criar(req, res, next) {
 async function atualizar(req, res, next) {
   try {
     const chamado = await Chamado.buscarPorId(req.params.id);
-    if (!chamado) return res.status(404).json({ mensagem: 'Chamado não encontrado.' });
-    if (!podeEditar(chamado, req.usuario)) return res.status(403).json({ mensagem: 'Você não pode editar este chamado.' });
+    if (!chamado) return res.status(404).json({ mensagem: 'Ticket not found.' });
+    if (!podeEditar(chamado, req.usuario)) return res.status(403).json({ mensagem: 'You cannot edit this ticket.' });
     await Chamado.atualizar(req.params.id, req.body.titulo, req.body.descricao);
     res.json(await Chamado.buscarPorId(req.params.id));
   } catch (erro) { next(erro); }
@@ -91,9 +91,9 @@ async function atualizar(req, res, next) {
 async function excluir(req, res, next) {
   try {
     const chamado = await Chamado.buscarPorId(req.params.id);
-    if (!chamado) return res.status(404).json({ mensagem: 'Chamado não encontrado.' });
+    if (!chamado) return res.status(404).json({ mensagem: 'Ticket not found.' });
     if (req.usuario.tipo !== 'cliente' || chamado.cliente_id !== req.usuario.id || chamado.status !== 'Aberto') {
-      return res.status(403).json({ mensagem: 'Somente o cliente pode excluir seu chamado enquanto ele estiver aberto.' });
+      return res.status(403).json({ mensagem: 'Only the customer can delete their own ticket while it is open.' });
     }
     await Chamado.excluir(req.params.id);
     res.status(204).send();
@@ -112,9 +112,9 @@ async function excluir(req, res, next) {
 async function alterarStatus(req, res, next) {
   try {
     const chamado = await Chamado.buscarPorId(req.params.id);
-    if (!chamado) return res.status(404).json({ mensagem: 'Chamado não encontrado.' });
+    if (!chamado) return res.status(404).json({ mensagem: 'Ticket not found.' });
     if (chamado.tecnico_id && chamado.tecnico_id !== req.usuario.id) {
-      return res.status(403).json({ mensagem: 'Este chamado já foi assumido por outro técnico.' });
+      return res.status(403).json({ mensagem: 'This ticket has already been claimed by another technician.' });
     }
     await Chamado.alterarStatus(req.params.id, req.body.status, req.usuario.id);
     res.json(await Chamado.buscarPorId(req.params.id));

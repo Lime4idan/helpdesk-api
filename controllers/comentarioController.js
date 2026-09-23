@@ -5,11 +5,11 @@ const { podeVer } = require('./chamadoController');
 async function carregarChamadoPermitido(req, res) {
   const chamado = await Chamado.buscarPorId(req.params.id);
   if (!chamado) {
-    res.status(404).json({ mensagem: 'Chamado não encontrado.' });
+    res.status(404).json({ mensagem: 'Ticket not found.' });
     return null;
   }
   if (!podeVer(chamado, req.usuario)) {
-    res.status(403).json({ mensagem: 'Acesso negado.' });
+    res.status(403).json({ mensagem: 'Access denied.' });
     return null;
   }
   return chamado;

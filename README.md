@@ -1,79 +1,67 @@
 # HelpDesk API
 
-API REST em JSON para abrir, acompanhar e atender chamados de suporte. Clientes enxergam seus próprios chamados; técnicos visualizam a fila, assumem chamados, mudam o status e comentam.
+A JSON REST API for opening, tracking, and resolving support tickets. Customers can access their own tickets; technicians can review the queue, claim tickets, change their status, and add comments.
 
-- API publicada: https://helpdesk-api-t1hv.onrender.com
-- Swagger: https://helpdesk-api-t1hv.onrender.com/api-docs
+- **Live API:** https://helpdesk-api-t1hv.onrender.com
+- **Swagger UI:** https://helpdesk-api-t1hv.onrender.com/api-docs
 
-## Tecnologias
+## Stack
 
-- Node.js e Express
-- MySQL com `mysql2/promise`
-- JWT e `bcryptjs`
-- CORS restrito ao frontend configurado
+- Node.js and Express
+- MySQL with `mysql2/promise`
+- JWT and `bcryptjs`
+- CORS restricted to the configured frontend
 - `express-validator`
-- Swagger UI e Swagger JSDoc
+- Swagger UI and Swagger JSDoc
 - `dotenv`
 
-## Como instalar
+## Local setup
 
-1. Instale Node.js e MySQL.
-2. Nesta pasta, execute:
+1. Install Node.js and MySQL.
+2. Run `npm install`.
+3. Run `database/schema.sql` in MySQL.
+4. Copy `.env.example` to `.env`, fill in the values, and use a long random `JWT_SECRET`.
+5. Start development with `npm run dev`.
 
-```bash
-npm install
-```
+The API runs at `http://localhost:3001`; Swagger UI is available at `http://localhost:3001/api-docs`. Use `npm start` for a regular production-style start.
 
-3. Execute `database/schema.sql` no MySQL.
-4. Copie `.env.example` para `.env` e preencha os dados. Use uma `JWT_SECRET` longa e aleatória.
-5. Inicie:
+## Environment variables
 
-```bash
-npm run dev
-```
-
-A API estará em `http://localhost:3001` e o Swagger em `http://localhost:3001/api-docs`. Para execução normal, use `npm start`.
-
-## Variáveis de ambiente
-
-| Variável | Finalidade |
+| Variable | Purpose |
 | --- | --- |
-| `PORT` | Porta usada pela API. |
-| `DB_HOST` | Endereço do servidor MySQL. |
-| `DB_PORT` | Porta do MySQL, normalmente `3306`. |
-| `DB_USER` | Usuário do banco. |
-| `DB_PASSWORD` | Senha do banco. |
-| `DB_NAME` | Nome do banco, normalmente `helpdesk`. |
-| `DB_SSL` | Use `true` quando o provedor exigir SSL. |
-| `DB_SSL_REJECT_UNAUTHORIZED` | Controla a validação do servidor SSL. |
-| `DB_SSL_CA_BASE64` | Certificado CA do banco convertido para Base64. |
-| `JWT_SECRET` | Segredo longo usado para assinar os tokens. |
-| `FRONTEND_URL` | Origem exata do frontend autorizada pelo CORS. |
-| `NODE_ENV` | Use `development` localmente e `production` no deploy. |
+| `PORT` | API port |
+| `DB_HOST`, `DB_PORT` | MySQL host and port |
+| `DB_USER`, `DB_PASSWORD`, `DB_NAME` | Database credentials and name |
+| `DB_SSL` | Enable SSL when required by the provider |
+| `DB_SSL_REJECT_UNAUTHORIZED` | Control SSL server verification |
+| `DB_SSL_CA_BASE64` | Base64-encoded database CA certificate |
+| `JWT_SECRET` | Long secret used to sign tokens |
+| `FRONTEND_URL` | Exact frontend origin allowed by CORS |
+| `NODE_ENV` | Runtime environment |
 
-Os nomes também estão disponíveis no arquivo `.env.example`. Credenciais reais não devem ser enviadas ao GitHub.
+Never commit real credentials to GitHub.
 
-## Rotas principais
+## Main routes
 
-- `POST /api/auth/register` e `POST /api/auth/login`
-- `GET`, `POST`, `PUT` e `DELETE /api/chamados`
+- `POST /api/auth/register` and `POST /api/auth/login`
+- `GET`, `POST`, `PUT`, and `DELETE /api/chamados`
 - `PATCH /api/chamados/:id/status`
-- `GET` e `POST /api/chamados/:id/comentarios`
+- `GET` and `POST /api/chamados/:id/comentarios`
 
-As rotas privadas esperam `Authorization: Bearer TOKEN`. O login devolve o token usado pelo frontend.
+Private routes expect `Authorization: Bearer TOKEN`. The login endpoint returns the token consumed by the frontend.
 
-## Arquitetura
+## Architecture
 
-- `config`: conexão MySQL.
-- `models`: prepared statements e acesso aos dados.
-- `controllers`: regras e respostas JSON.
-- `middlewares`: JWT, validação e erros.
-- `routes`: endpoints REST.
-- `docs`: especificação Swagger.
-- `database`: criação do banco.
+- `config` — MySQL connection
+- `models` — prepared statements and data access
+- `controllers` — business rules and JSON responses
+- `middlewares` — JWT authentication, validation, and errors
+- `routes` — REST endpoints
+- `docs` — Swagger specification
+- `database` — database creation script
 
-## Deploy
+## Deployment
 
-O projeto usa a porta fornecida pelo Render. Configure todas as variáveis do `.env.example`, principalmente `FRONTEND_URL` com a origem exata do site publicado na Vercel, sem usar `*`. No Aiven, use `DB_SSL=true` e coloque o certificado fornecido pelo serviço em `DB_SSL_CA_BASE64`. Depois do deploy, a documentação continuará disponível em `/api-docs`.
+The API uses the port provided by Render. Configure every value from `.env.example`, especially `FRONTEND_URL` with the exact Vercel origin instead of `*`. For Aiven, enable SSL and provide its CA certificate through `DB_SSL_CA_BASE64`.
 
-O arquivo `render.yaml` permite criar o serviço pelo recurso Blueprint do Render. Durante a criação, o painel solicita os dados privados do banco e a origem do frontend; esses valores não ficam gravados no repositório.
+`render.yaml` supports Render Blueprints without storing database credentials or the frontend origin in the repository.

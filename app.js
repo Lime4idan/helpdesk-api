@@ -12,7 +12,7 @@ const app = express();
 const porta = process.env.PORT || 3001;
 
 if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
-  throw new Error('JWT_SECRET deve ser configurada em produção.');
+  throw new Error('JWT_SECRET must be configured in production.');
 }
 
 app.use(cors({
@@ -28,7 +28,7 @@ app.use(rotaNaoEncontrada);
 app.use(tratarErro);
 
 if (require.main === module) {
-  app.listen(porta, () => console.log(`HelpDesk API disponível em http://localhost:${porta}`));
+  app.listen(porta, () => console.log(`HelpDesk API available at http://localhost:${porta}`));
 }
 
 module.exports = app;
