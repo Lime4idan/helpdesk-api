@@ -1,6 +1,6 @@
 <div align="center">
 
-#  HelpDesk API
+# 🛠️ HelpDesk API
 
 The service layer behind a complete support-ticket workflow.
 
@@ -17,6 +17,14 @@ A REST API for opening, tracking, discussing, and resolving customer-support tic
 [Open the API](https://helpdesk-api-t1hv.onrender.com) · [Explore Swagger UI](https://helpdesk-api-t1hv.onrender.com/api-docs) · [View the frontend](https://github.com/Lime4idan/helpdesk-web)
 
 </div>
+
+---
+
+## API preview
+
+![Interactive Swagger documentation for the HelpDesk API](docs/api-docs-preview.png)
+
+The live Swagger interface documents authentication, ticket management, status changes, and comments with the exact request and response formats used by the frontend.
 
 ---
 
